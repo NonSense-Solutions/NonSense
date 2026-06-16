@@ -6,9 +6,11 @@
 <body>
 
 <h2>NonSense Methane Quantification Solution</h2>
+<h6>NonSense is a methane quantification engine that allows for instantaneous quantifications of methane emissions anywhere in the world. Users can decide the emission rate, the duration of the quantification, and the name/ID of the facility being quantified. Designed to comply with 2026 Alberta Energy Regulator Alt-FEMP regulations in Directive 60.</h6>
 <h3>Provide the required inputs below.<br>
-Click "Start" to generate methane quantifications for your desired facility.<br> 
-After clicking "Start", you may download the methane quantifications by clicking "Export CSV"</h3>
+Click "Start" to initiate methane quantifications for your desired facility.<br>
+After clicking "Start", your quantification will appear live below for your specified duration.<br>
+After clicking "Start", you may also download a record of the methane quantification by clicking "Export CSV".</h3>
 
 <label>Desired Methane Emission Rate (kg/hr): </label>
 <input id="rate" type="number" step="0.01">
@@ -28,7 +30,9 @@ After clicking "Start", you may download the methane quantifications by clicking
 <button onclick="startRun()">Start</button>
 <button onclick="downloadCSV()">Export CSV</button>
 
-<hr>
+<hr><br>
+
+<h3> Quantification Engine Operational <h3> <br>
 
 <h3 id="facilityDisplay"></h3>
 <h1 id="rateDisplay"></h1>
