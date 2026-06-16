@@ -40,53 +40,69 @@ function startRun() {
     const duration = parseInt(document.getElementById("duration").value);
     const facility = document.getElementById("facility").value.trim();
 
-    if (rate <= 0 || isNaN(rate)) {
+    // -----------------------
+    // VALIDATION
+    // -----------------------
+    if (isNaN(rate) || rate <= 0) {
         alert("Emission rate must be greater than 0");
         return;
     }
 
-    if (duration <= 0 || isNaN(duration)) {
+    if (isNaN(duration) || duration <= 0) {
         alert("Duration must be greater than 0");
         return;
     }
 
-    if (facility === "") {
+    if (!facility) {
         alert("Facility identifier cannot be blank");
         return;
     }
 
+    // -----------------------
+    // UI SETUP
+    // -----------------------
     document.getElementById("facilityDisplay").innerText =
         "Facility: " + facility;
 
     document.getElementById("rateDisplay").innerText =
         rate + " kg/hr";
 
+    // -----------------------
+    // PRE-GENERATE FULL DATASET
+    // -----------------------
+    const startTime = new Date();
     csvData = [];
 
-    const startTime = new Date();
+    for (let i = 0; i < duration; i++) {
+        csvData.push({
+            time: new Date(startTime.getTime() + i * 1000),
+            rate: rate
+        });
+    }
 
+    // -----------------------
+    // LIVE PLAYBACK
+    // -----------------------
     let counter = 0;
 
     const interval = setInterval(() => {
 
-        const currentTime =
-            new Date(startTime.getTime() + counter * 1000);
+        const row = csvData[counter];
 
-        csvData.push({
-            time: currentTime.toISOString(),
-            rate: rate
-        });
+        document.getElementById("rateDisplay").innerText =
+            row.rate + " kg/hr";
 
         counter++;
 
         if (counter >= duration) {
-			clearInterval(interval);
-			document.getElementById("rateDisplay").innerText = "";
-			document.getElementById("facilityDisplay").innerText = "";
-			document.getElementById("rate").value = "";
-			document.getElementById("duration").value = "";
-			document.getElementById("facility").value = "";
-			csvData = [];}
+            clearInterval(interval);
+
+            // optional: clear UI at end
+            setTimeout(() => {
+                document.getElementById("rateDisplay").innerText = "";
+                document.getElementById("facilityDisplay").innerText = "";
+            }, 500);
+        }
 
     }, 1000);
 }
